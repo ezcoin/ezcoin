@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2012 Litecoin Developers
+// Copyright (c) 2013 Ezcoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -166,6 +167,9 @@ int CWalletDB::LoadWallet(CWallet* pwallet)
                     printf("Error in wallet.dat, hash mismatch\n");
 
                 // Undo serialize changes in 31600
+				/* 
+				 * ezcoin - not applicable
+				 * 
                 if (31404 <= wtx.fTimeReceivedIsTxTime && wtx.fTimeReceivedIsTxTime <= 31703)
                 {
                     if (!ssValue.empty())
@@ -183,6 +187,7 @@ int CWalletDB::LoadWallet(CWallet* pwallet)
                     }
                     vWalletUpgrade.push_back(hash);
                 }
+				*/
 
                 //// debug print
                 //printf("LoadWallet  %s\n", wtx.GetHash().ToString().c_str());

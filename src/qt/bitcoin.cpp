@@ -169,12 +169,12 @@ int main(int argc, char *argv[])
 
     // Application identification (must be set before OptionsModel is initialized,
     // as it is used to locate QSettings)
-    app.setOrganizationName("Litecoin");
-    app.setOrganizationDomain("litecoin.org");
+    app.setOrganizationName("Ezcoin");
+    app.setOrganizationDomain("ezcoin.org");
     if(GetBoolArg("-testnet")) // Separate UI settings for testnet
-        app.setApplicationName("Litecoin-Qt-testnet");
+        app.setApplicationName("Ezcoin-Qt-testnet");
     else
-        app.setApplicationName("Litecoin-Qt");
+        app.setApplicationName("Ezcoin-Qt");
 
     // ... then GUI settings:
     OptionsModel optionsModel;

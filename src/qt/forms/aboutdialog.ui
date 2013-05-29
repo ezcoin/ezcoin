@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>About Litecoin</string>
+   <string>About Ezcoin</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
@@ -97,6 +97,7 @@
         <string>
           Copyright © 2009-2012 Bitcoin Developers
           Copyright © 2011-2012 Litecoin Developers
+          Copyright © 2013 Ezcoin Developers
 
           This is experimental software.
 

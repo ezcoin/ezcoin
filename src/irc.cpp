@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2012 Litecoin Developers
+// Copyright (c) 2013 Ezcoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -294,14 +295,14 @@ void ThreadIRCSeed2(void* parg)
         }
         
         if (fTestNet) {
-            Send(hSocket, "JOIN #litecoinTEST3\r");
-            Send(hSocket, "WHO #litecoinTEST3\r");
+            Send(hSocket, "JOIN #ezcoinTEST\r");
+            Send(hSocket, "WHO #ezcoinTEST\r");
         } else {
             // randomly join #litecoin00-#litecoin99
             int channel_number = GetRandInt(100);
-            channel_number = 0; // Litecoin: for now, just use one channel
-            Send(hSocket, strprintf("JOIN #litecoin%02d\r", channel_number).c_str());
-            Send(hSocket, strprintf("WHO #litecoin%02d\r", channel_number).c_str());
+            channel_number = 1; // Ezcoin: for now, just use one channel
+            Send(hSocket, strprintf("JOIN #ezcoin%02d\r", channel_number).c_str());
+            Send(hSocket, strprintf("WHO #ezcoin%02d\r", channel_number).c_str());
         }
 
         int64 nStart = GetTime();
