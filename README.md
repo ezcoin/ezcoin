@@ -1,11 +1,16 @@
-Litecoin - a lite version of Bitcoin optimized for CPU mining using scrypt as a proof of work scheme.
- - 2.5 minute block targets
- - subsidy halves in 840k blocks (~4 years)
- - ~84 million total coins
+EZCoin is a scrypt based coin.
 
-The rest is the same as bitcoin.
- - 50 coins per block
- - 2016 blocks to retarget difficulty
+Block target: 1 minute
+
+Block reward:
+First 500 blocks - 2000 EZC per block
+Next 2000 blocks - 500 EZC per block
+Next 2500 blocks - 250 EZC per block
+Thereafter 50 EZC per block
+
+Difficulty retargets every 240 blocks.
+Generation rate halves every 844,000 blocks (about 1.5 years).
+Total coins will be around 220 million
 
 Development process
 ===================
@@ -34,5 +39,3 @@ in this manner will have their corresponding issue labeled 'stagnant'.
 Issues with no commits will be given a similar warning, and closed after
 15 days from their last activity. Issues closed in this manner will be 
 labeled 'stale'. 
-
-Check out http://forum.litecoin.net/index.php/board,2.0.html for more info about the development.

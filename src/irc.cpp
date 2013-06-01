@@ -298,7 +298,7 @@ void ThreadIRCSeed2(void* parg)
             Send(hSocket, "JOIN #ezcoinTEST\r");
             Send(hSocket, "WHO #ezcoinTEST\r");
         } else {
-            // randomly join #litecoin00-#litecoin99
+            // randomly join #ezcoin00-#ezcoin99
             int channel_number = GetRandInt(100);
             channel_number = 1; // Ezcoin: for now, just use one channel
             Send(hSocket, strprintf("JOIN #ezcoin%02d\r", channel_number).c_str());
