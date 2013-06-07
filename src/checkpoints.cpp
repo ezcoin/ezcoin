@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2012 Litecoin Developers
+// Copyright (c) 2013 Ezcoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -29,6 +30,7 @@ namespace Checkpoints
         (  2500, uint256("0xd8b7d76354b1308de398073a5dfabb0f9149faf86c5442012f0e57c97fa1e3ca"))
         (  4000, uint256("0xe83ee0f0d4e28e43a4d956e550521bc270db5ffc78d861df3db91d81a35cc1b6"))
         (  5000, uint256("0xe3fe3e80b95fdd46299f7e8536176518d242851d495bba2ce1921b20f87a4def"))
+		( 10000, uint256("0xcff48972378a3f838e26de2a9386cc2eb8060f7e99d52d9bf3c642afc7d351c5"))
         ;                   
 
     bool CheckBlock(int nHeight, const uint256& hash)
