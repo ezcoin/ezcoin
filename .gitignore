@@ -1,7 +1,7 @@
 src/*.exe
-src/litecoin
-src/litecoind
-src/test_litecoin
+src/ezcoin
+src/ezcoind
+src/test_ezcoin
 src/build.h
 .*.swp
 *.*~*
@@ -11,10 +11,11 @@ src/build.h
 *.o
 *.patch
 .bitcoin
+.ezcoin
 #compilation and Qt preprocessor part
 *.qm
 Makefile
-litecoin-qt
+ezcoin-qt
 #resources cpp
 qrc_*.cpp
 #qt creator

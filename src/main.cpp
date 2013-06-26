@@ -844,9 +844,9 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
 		nSubsidy = 250 * COIN;
 	else
 	{
-      // Subsidy is cut in half every 840000 blocks, which will occur approximately every 4 years
+      // Subsidy is cut in half every 840000 blocks, which will occur approximately every 1.5 years
 	  nSubsidy = 50 * COIN;
-      nSubsidy >>= (nHeight / 840000); // Litecoin: 840k blocks in ~4 years
+      nSubsidy >>= (nHeight / 840000); // Ezcoin: 840k blocks in ~1.5 years
 	}
 
     return nSubsidy + nFees;
