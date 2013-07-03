@@ -852,29 +852,65 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 4 * 60 * 60; // Ezcoin: 4 hours
-static const int64 nTargetSpacing = 60; // Ezcoin: 60 seconds
-static const int64 nInterval = nTargetTimespan / nTargetSpacing;
+// Ezcoin V1 parameters
+static const int64 V1_nTargetTimespan = 4 * 60 * 60; // Ezcoin V1: 4 hours
+static const int64 V1_nTargetSpacing = 60; // Ezcoin V1: 60 seconds
+static const int64 V1_nInterval = V1_nTargetTimespan / V1_nTargetSpacing; // Ezcoin V1: 240
+static const int V1_nMaxAdjustmentFactor = 4;
+
+// Ezcoin V2 
+static const int64 VERSION2_HEIGHT = 44160; // V2
+static const int64 VERSION2_TIME = 1373846400; // V2: 15 Jul 2013
+
+// Ezcoin V2 parameters 
+static const int64 V2_nTargetTimespan = 12 * 60; // Ezcoin V2: 12 minutes
+static const int64 V2_nTargetSpacing = 60; // Ezcoin V2 = Ezcoin V1
+static const int64 V2_nInterval = V2_nTargetTimespan / V2_nTargetSpacing; // Ezcoin V2: 12
+static const int V2_nMaxAdjustmentFactor = 4; 
+static const int V2_nAdjustmentFactorDown = 4;
+static const int V2_nAdjustmentFactorUp = 2;
 
 //
 // minimum amount of work that could possibly be required nTime after
 // minimum work required was nBase
 //
-unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
-{
+unsigned int ComputeMinWork(int nCheckpointHeight, unsigned int nBase, int64 nTime, int64 nBlockTime)
+{	
     // Testnet has min-difficulty blocks
     // after nTargetSpacing*2 time between blocks:
-    if (fTestNet && nTime > nTargetSpacing*2)
+    if (fTestNet && nTime > V1_nTargetSpacing*2)
         return bnProofOfWorkLimit.GetCompact();
 
+	int nEZCVersion = 1;
+	if ((nCheckpointHeight >= VERSION2_HEIGHT) || (nBlockTime >= VERSION2_TIME))
+	{
+		nEZCVersion = 2;
+	}
+
+    int64 nTargetTimespan;
+	int nMaxAdjustmentFactor;
+	int nAdjustmentFactor;
+	if (nEZCVersion == 2)
+	{
+		nTargetTimespan = V2_nTargetTimespan;
+		nMaxAdjustmentFactor = V2_nMaxAdjustmentFactor;
+		nAdjustmentFactor = V2_nAdjustmentFactorDown;
+	}
+	else
+	{
+		nTargetTimespan = V1_nTargetTimespan;
+		nMaxAdjustmentFactor = V1_nMaxAdjustmentFactor;
+		nAdjustmentFactor = V1_nMaxAdjustmentFactor;
+	}
+	
     CBigNum bnResult;
     bnResult.SetCompact(nBase);
     while (nTime > 0 && bnResult < bnProofOfWorkLimit)
     {
-        // Maximum 400% adjustment...
-        bnResult *= 4;
-        // ... in best-case exactly 4-times-normal target time
-        nTime -= nTargetTimespan*4;
+		// Maximum adjustment...
+		bnResult *= nAdjustmentFactor;
+		// ... in best-case exactly 4-times-normal target time
+		nTime -= nTargetTimespan * nMaxAdjustmentFactor;
     }
     if (bnResult > bnProofOfWorkLimit)
         bnResult = bnProofOfWorkLimit;
@@ -889,13 +925,41 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
 
+	int nEZCVersion = 1;
+	if (pindexLast->nHeight+1 >= VERSION2_HEIGHT)
+	{
+		nEZCVersion = 2;
+	}
+	
+	int64 nTargetSpacing;
+	int64 nTargetTimespan;
+	int64 nInterval;
+	int nAdjustmentFactorUp;
+	int nAdjustmentFactorDown;
+	if (nEZCVersion == 2)
+	{
+		nTargetSpacing = V2_nTargetSpacing;
+		nTargetTimespan = V2_nTargetTimespan;
+		nInterval = V2_nInterval;
+		nAdjustmentFactorUp = V2_nAdjustmentFactorUp;
+		nAdjustmentFactorDown = V2_nAdjustmentFactorDown;
+	}
+	else
+	{
+		nTargetSpacing = V1_nTargetSpacing;
+		nTargetTimespan = V1_nTargetTimespan;
+		nInterval = V1_nInterval;
+		nAdjustmentFactorUp = V1_nMaxAdjustmentFactor;
+		nAdjustmentFactorDown = V1_nMaxAdjustmentFactor;
+	}
+	
     // Only change once per interval
     if ((pindexLast->nHeight+1) % nInterval != 0)
     {
         // Special difficulty rule for testnet:
         if (fTestNet)
         {
-            // If the new block's timestamp is more than 2* 10 minutes
+            // If the new block's timestamp is more than 2 * target spacing
             // then allow mining of a min-difficulty block.
             if (pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
                 return nProofOfWorkLimit;
@@ -918,7 +982,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     if ((pindexLast->nHeight+1) != nInterval)
         blockstogoback = nInterval;
 
-    // Go back by what we want to be 14 days worth of blocks
+    // Go back by what we want to be one interval's worth of blocks
     const CBlockIndex* pindexFirst = pindexLast;
     for (int i = 0; pindexFirst && i < blockstogoback; i++)
         pindexFirst = pindexFirst->pprev;
@@ -927,10 +991,10 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     // Limit adjustment step
     int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
     printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
-    if (nActualTimespan < nTargetTimespan/4)
-        nActualTimespan = nTargetTimespan/4;
-    if (nActualTimespan > nTargetTimespan*4)
-        nActualTimespan = nTargetTimespan*4;
+    if (nActualTimespan < nTargetTimespan / nAdjustmentFactorUp)
+        nActualTimespan = nTargetTimespan / nAdjustmentFactorUp;
+    if (nActualTimespan > nTargetTimespan * nAdjustmentFactorDown)
+        nActualTimespan = nTargetTimespan * nAdjustmentFactorDown;
 
     // Retarget
     CBigNum bnNew;
@@ -1862,7 +1926,7 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
         CBigNum bnNewBlock;
         bnNewBlock.SetCompact(pblock->nBits);
         CBigNum bnRequired;
-        bnRequired.SetCompact(ComputeMinWork(pcheckpoint->nBits, deltaTime));
+        bnRequired.SetCompact(ComputeMinWork(pcheckpoint->nHeight, pcheckpoint->nBits, deltaTime, pblock->GetBlockTime()));
         if (bnNewBlock > bnRequired)
         {
             if (pfrom)
