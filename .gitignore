@@ -1,5 +1,4 @@
 src/*.exe
-src/ezcoin
 src/ezcoind
 src/test_ezcoin
 src/build.h
@@ -10,12 +9,12 @@ src/build.h
 *.orig
 *.o
 *.patch
-.bitcoin
 .ezcoin
 #compilation and Qt preprocessor part
 *.qm
 Makefile
 ezcoin-qt
+release/*
 #resources cpp
 qrc_*.cpp
 #qt creator
