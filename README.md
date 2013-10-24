@@ -1,16 +1,11 @@
 EZCoin is a scrypt based coin.
 
-Block target: 1 minute
+Block target: 1 minute (2.5x faster than Litecoin)
+Block reward: 50 EZC per block
 
-Block reward:
-First 500 blocks - 2000 EZC per block
-Next 2000 blocks - 500 EZC per block
-Next 2500 blocks - 250 EZC per block
-Thereafter 50 EZC per block
-
-Difficulty retargets every 240 blocks.
+Difficulty retargets every 12 blocks.
 Generation rate halves every 844,000 blocks (about 1.5 years).
-Total coins will be around 220 million
+Total coins will be around 84 million (same as Litecoin)
 
 Development process
 ===================

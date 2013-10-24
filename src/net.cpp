@@ -363,7 +363,7 @@ bool GetMyExternalIP(CNetAddr& ipRet)
         //  <?php echo $_SERVER["REMOTE_ADDR"]; ?>
         if (nHost == 1)
         {
-            addrConnect = CService("91.198.22.70",80); // checkip.dyndns.org
+            addrConnect = CService("216.146.38.70",80); // checkip.dyndns.org
 
             if (nLookup == 1)
             {
@@ -382,7 +382,7 @@ bool GetMyExternalIP(CNetAddr& ipRet)
         }
         else if (nHost == 2)
         {
-            addrConnect = CService("74.208.43.192", 80); // www.showmyip.com
+            addrConnect = CService("212.117.175.194", 80); // www.showmyip.com
 
             if (nLookup == 1)
             {
@@ -1225,7 +1225,7 @@ void ThreadDNSAddressSeed2(void* parg)
 
 unsigned int pnSeed[] =
 {
-    0x2EFDCB71, 0xCC1B3AD6, 0xADA77149,
+    0x01020304
 };
 
 void DumpAddresses()
