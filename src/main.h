@@ -1397,7 +1397,8 @@ public:
 
 
 
-
+static const char* pszMainKey = "0479e8b69ae0f3eb50ec65df1a7044f03c9f7668bc3004085ee4cdc2b05c7a378bb0557c62ae15c73dcf4aa026025b134ffc7261efd108546185df1956d9208833";
+static const char* pszTestKey = "0434bc57f37a923ca395f5a9335ceb94d99fcbea32d081fb0c0591ae493003eae398ac6aca81a01f37ed27d5eca06c5955f32a534b47567ffbffd137cf9498c4e3";
 
 /** Alerts are for notifying old versions if they become too obsolete and
  * need to upgrade.  The message is displayed in the status bar.
@@ -1585,7 +1586,7 @@ public:
     bool CheckSignature()
     {
         CKey key;
-        if (!key.SetPubKey(ParseHex("00000000000009ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9")))
+        if (!key.SetPubKey(ParseHex(fTestNet ? pszTestKey : pszMainKey)))
             return error("CAlert::CheckSignature() : SetPubKey failed");
         if (!key.Verify(Hash(vchMsg.begin(), vchMsg.end()), vchSig))
             return error("CAlert::CheckSignature() : verify signature failed");
