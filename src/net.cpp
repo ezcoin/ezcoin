@@ -1196,8 +1196,10 @@ static const char *strMainNetDNSSeed[][2] = {
     {"seed2.ezcoin.org", "seed2.ezcoin.org"},
     {"seed3.ezcoin.org", "seed3.ezcoin.org"},
     {"seed4.ezcoin.org", "seed4.ezcoin.org"},
-    {"ezc.zapto.org", "ezc.zapto.org"},
-    {"ezc.no-ip.org", "ezc.no-ip.org"},
+    {"seed5.ezcoin.org", "seed5.ezcoin.org"},
+    {"seed6.ezcoin.org", "seed6.ezcoin.org"},
+    {"seed7.ezcoin.org", "seed7.ezcoin.org"},
+    {"seed8.ezcoin.org", "seed8.ezcoin.org"},
     {NULL, NULL}
 };
 
