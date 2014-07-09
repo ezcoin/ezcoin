@@ -7,6 +7,8 @@ Difficulty retargets every 12 blocks.
 Generation rate halves every 844,000 blocks (about 1.5 years).
 Total coins will be around 84 million (same as Litecoin)
 
+http://www.ezcoin.org/
+
 Development process
 ===================
 
